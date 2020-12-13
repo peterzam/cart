@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/jquery.terminal/js/jquery.terminal.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/jquery.terminal/css/jquery.terminal.min.css"
+    />
+  </head>
+  <body>
+    <script>
+      $('body').terminal(
+        {
+          usage: function () {
+            this.echo("curl -X POST cart.peterzam.dev -d '<Data string you want to store>'");
+          },
+          curl: function (...args) {
+            if (
+              (args[0] == '-X') &&
+              (args[1] == 'POST') &&
+              (args[2] == 'cart.peterzam.dev') &&
+              (args[3] == '-d') &&
+              (args[4] != '')
+            ) {
+                var reply
+                data = $.post("http://localhost:8080",args[4])
+                this.echo(data);
+            }else{this.echo("Usage - curl -X POST cart.peterzam.dev -d '<Data string you want to store>'");}
+          },
+        },
+        {
+          checkArity: false,
+          greetings:
+            'Hello from cart.peterzam.dev.' +
+            '\nThis cart api server was made to store data strings for temporary.(5 min)' +
+            '\nThe data strings are permenantly delete from server after 5 min.' +
+            '\nThe code can be found @ https://github.com/peterzam' +
+            "\nYou can use 'usage' command for api usage.",
+        }
+      );
+    </script>
+  </body>
+</html>
